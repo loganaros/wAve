@@ -22,7 +22,7 @@ export default function SideNav() {
             )}
             {user == null ? (
                 <li>
-                    <button onClick={() => void signIn()}>Sign In</button>
+                    <button onClick={() => void signIn('spotify')}>Sign In</button>
                 </li>
             ) : <li>
                     <button onClick={() => void signOut()}>Log Out</button>

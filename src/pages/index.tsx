@@ -15,7 +15,15 @@ export default function Home() {
 }
 
 function RecentPosts() {
-  const posts = [];
+  const posts = api.post.infiniteFeed.useInfiniteQuery({}, { getNextPageParam: lastPage => lastPage.nextCursor });
   
-  return <InfinitePostList posts={posts}/>
+  return ( 
+    <InfinitePostList 
+      posts={posts.data?.pages.flatMap((page) => page.posts)}
+      isError={posts.isError}
+      isLoading={posts.isLoading}
+      hasMore={posts.hasNextPage}
+      fetchNewPosts={posts.fetchNextPage}
+    />
+  );
 }

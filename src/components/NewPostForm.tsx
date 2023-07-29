@@ -45,7 +45,7 @@ function Form() {
     return (
         <form onSubmit={handleSubmit} className="flex flex-col min-w-[75%] float-left m-5 gap-2 rounded-xl ring-1 ring-gray-900/5 shadow-lg bg-white px-4 py-2">
             <div className="flex gap-4">
-                <ProfileImage src={session.data.user.image} />
+                <ProfileImage className="self-center" src={session.data.user.image} />
                 <textarea 
                     ref={inputRef}
                     style={{height: 0}}
