@@ -13,7 +13,7 @@ export default function SideNav() {
             {user != null && (
                 <li>
                     <span className="flex items-center gap-4">
-                        <ProfileImage />
+                        <ProfileImage src={user.image}/>
                         <span className="hidden text-2xl md:inline">
                             Hi, {user.name}!
                         </span>

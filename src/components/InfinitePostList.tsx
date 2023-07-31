@@ -8,7 +8,7 @@ import { IconHoverEffect } from "./IconHoverEffect"
 import { api } from "~/utils/api"
 import { LoadingSpinner } from "./LoadingSpinner"
 
-type Post = {
+interface Post {
     id: string
     content: string
     createdAt: Date
@@ -17,7 +17,7 @@ type Post = {
     user: { id: string, image: string | null, name: string | null }
 }
 
-type InfinitePostListProps = {
+interface InfinitePostListProps {
     posts: Post[]
     isLoading: boolean
     isError: boolean
@@ -38,7 +38,7 @@ export function InfinitePostList({ posts, isError, isLoading, fetchNewPosts, has
                 className="flex flex-col float-left min-w-full"
                 dataLength={posts.length}
                 next={fetchNewPosts}
-                hasMore={hasMore || false}
+                hasMore={hasMore ?? false}
                 loader={<LoadingSpinner />}>
                     {posts.map(post => {
                         return <PostCard key={post.id} {...post} />;
@@ -111,7 +111,7 @@ function PostCard({ id, user, content, createdAt, likeCount, likedByMe }: Post) 
     );
 }
 
-type HeartButtonProps = {
+interface HeartButtonProps {
     onClick: () => void
     isLoading: boolean
     likedByMe: boolean

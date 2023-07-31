@@ -28,7 +28,8 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         })
     }})
 
-    if(profile == null || profile.name == null) return <ErrorPage statusCode={404} />
+    if(profile == null) return <ErrorPage statusCode={404} />
+    if(profile.name == null) return <ErrorPage statusCode={404} />
 
     return <>
         <Head>
@@ -60,7 +61,7 @@ const ProfilePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </header>
         <main>
             <InfinitePostList 
-                posts={posts.data?.pages.flatMap((page) => page.posts)!}
+                posts={posts.data!.pages.flatMap((page) => page.posts)!}
                 isError={posts.isError}
                 isLoading={posts.isLoading}
                 hasMore={posts.hasNextPage}

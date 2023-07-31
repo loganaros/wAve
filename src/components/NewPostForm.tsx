@@ -42,7 +42,8 @@ function Form() {
         }
 
         trpcUtils.post.infiniteFeed.setInfiniteData({}, (oldData) => {
-            if(oldData == null || oldData.pages[0] == null) return
+            if(oldData == null) return
+            if(oldData.pages[0] == null) return
 
             const newCachedPost = {
                 ...newPost,
