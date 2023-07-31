@@ -25,11 +25,12 @@ export const postRouter = createTRPCRouter({
       }),
   infiniteFeed: publicProcedure
     .input(z.object({ 
+      onlyFollowing: z.boolean().optional(),
       limit: z.number().optional(), 
       cursor: z.object({ id: z.string(), createdAt: z.date()}).
       optional(),
     })
-  ).query(async ({ input: { limit = 10, cursor }, ctx }) => {
+  ).query(async ({ input: { limit = 10, onlyFollowing = false, cursor }, ctx }) => {
     const currentUserId = ctx.session?.user.id
 
     const data = await ctx.prisma.post.findMany({
