@@ -1,7 +1,6 @@
 import Link from "next/link"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { ProfileImage } from "./ProfileImage"
-import { MusicPlayer } from "./MusicPlayer"
 import { getToken } from "next-auth/jwt"
 import { useSession } from "next-auth/react"
 import { VscHeart, VscHeartFilled } from "react-icons/vsc"
