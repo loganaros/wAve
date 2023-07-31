@@ -22,7 +22,7 @@ function RecentPosts() {
   
   return ( 
     <InfinitePostList 
-      posts={posts.data?.pages.flatMap((page) => page.posts)}
+      posts={posts.data?.pages.flatMap((page) => page.posts)!}
       isError={posts.isError}
       isLoading={posts.isLoading}
       hasMore={posts.hasNextPage}

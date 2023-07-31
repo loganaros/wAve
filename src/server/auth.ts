@@ -45,21 +45,21 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
-    jwt({ token, account, user }) {
-      if(account && user) {
-        return {
-          ...token,
-          accessToken: account.access_token,
-          refreshToke: account.refresh_token,
-          username: account.providerAccountId,
-          accessTokenExpires: account.expires_at && account.expires_at * 1000,
-        }
-      }
+    // jwt({ token, account, user }) {
+    //   if(account && user) {
+    //     return {
+    //       ...token,
+    //       accessToken: account.access_token,
+    //       refreshToke: account.refresh_token,
+    //       username: account.providerAccountId,
+    //       accessTokenExpires: account.expires_at && account.expires_at * 1000,
+    //     }
+    //   }
       // if (Date.now() < token.accessTokenExpires) {
       //   return token;
       // }
       
-    }
+    // }
   },
   adapter: PrismaAdapter(prisma),
   providers: [

@@ -14,15 +14,15 @@ type Post = {
     createdAt: Date
     likeCount: number
     likedByMe: boolean
-    user: { id: string, image: string | null, name: string }
+    user: { id: string, image: string | null, name: string | null }
 }
 
 type InfinitePostListProps = {
+    posts: Post[]
     isLoading: boolean
     isError: boolean
     hasMore: boolean | undefined
     fetchNewPosts: () => Promise<unknown>
-    posts?: Post[]
 }
 
 export function InfinitePostList({ posts, isError, isLoading, fetchNewPosts, hasMore }: InfinitePostListProps ) {
