@@ -51,6 +51,8 @@ export const profileRouter = createTRPCRouter({
       addedFollow = false
     }
 
+    
+
     return { addedFollow }
   })
 });

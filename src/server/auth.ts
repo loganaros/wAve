@@ -52,10 +52,12 @@ export const authOptions: NextAuthOptions = {
           accessToken: account.access_token,
           refreshToke: account.refresh_token,
           username: account.providerAccountId,
-          accessTokenExpires: account.expires_at * 1000,
+          accessTokenExpires: account.expires_at && account.expires_at * 1000,
         }
       }
-
+      // if (Date.now() < token.accessTokenExpires) {
+      //   return token;
+      // }
       
     }
   },

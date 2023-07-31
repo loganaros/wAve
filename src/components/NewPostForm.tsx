@@ -3,6 +3,7 @@ import { Button } from "./Button";
 import { ProfileImage } from "./ProfileImage";
 import { FormEvent, useCallback, useLayoutEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
+import { getToken } from "next-auth/jwt";
 
 function updateTextAreaSize(textArea?: HTMLTextAreaElement) {
     if(textArea == null) return
@@ -20,11 +21,14 @@ export function NewPostForm() {
 function Form() {
     const session = useSession();
     const [inputValue, setInputValue] = useState("");
+
     const textAreaRef = useRef<HTMLTextAreaElement>();
+
     const inputRef = useCallback((textArea: HTMLTextAreaElement) => {
         updateTextAreaSize(textArea);
         textAreaRef.current = textArea
     }, [])
+    const trpcUtils = api.useContext()
 
     useLayoutEffect(() => {
         updateTextAreaSize(textAreaRef.current)
@@ -32,6 +36,36 @@ function Form() {
 
     const createPost = api.post.create.useMutation({ onSuccess: newPost => {
         setInputValue("");
+
+        if(session.status !== "authenticated") {
+            return
+        }
+
+        trpcUtils.post.infiniteFeed.setInfiniteData({}, (oldData) => {
+            if(oldData == null || oldData.pages[0] == null) return
+
+            const newCachedPost = {
+                ...newPost,
+                likeCount: 0,
+                likedByMe: false,
+                user: {
+                    id: session.data.user.id,
+                    name: session.data.user.name,
+                    image: session.data.user.image
+                }
+            }
+
+            return {
+                ...oldData,
+                page: [
+                    {
+                        ...oldData.pages[0],
+                        posts: [newCachedPost, ...oldData.pages[0].posts]
+                    },
+                    ...oldData.pages.slice(1)
+                ]
+            }
+        })
     }})
     
     if(session.status !== "authenticated") return null;
@@ -52,7 +86,7 @@ function Form() {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     className="flex-grow resize-none overflow-hidden p-4 text-lg outline-none" 
-                    placeholder="What's happening?"
+                    placeholder="What are you listening to?"
                 />
             </div>
             <Button className="self-end">Post</Button>
