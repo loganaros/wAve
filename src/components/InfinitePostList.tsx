@@ -18,7 +18,7 @@ interface Post {
 }
 
 interface InfinitePostListProps {
-    posts: Post[]
+    posts: Post[] | ({ id: string; content: string; createdAt: Date; likeCount: number; user: { name: string | null; id: string; image: string | null; }; likedByMe: boolean; }[] | undefined)
     isLoading: boolean
     isError: boolean
     hasMore: boolean | undefined
