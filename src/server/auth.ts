@@ -5,6 +5,7 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
+import { getToken } from "next-auth/jwt";
 import SpotifyProvider from "next-auth/providers/spotify";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
@@ -44,15 +45,27 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
-    // redirect: ({ url, baseUrl }) => ({
-    //   baseUrl
-    // }),
+    jwt({ token, account, user }) {
+      if(account && user) {
+        return {
+          ...token,
+          accessToken: account.access_token,
+          refreshToke: account.refresh_token,
+          username: account.providerAccountId,
+          accessTokenExpires: account.expires_at * 1000,
+        }
+      }
+
+      
+    }
   },
   adapter: PrismaAdapter(prisma),
   providers: [
     SpotifyProvider({
       clientId: env.SPOTIFY_CLIENT_ID,
       clientSecret: env.SPOTIFY_CLIENT_SECRET,
+      authorization:
+      "https://accounts.spotify.com/authorize?scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state",
     }),
     /**
      * ...add more providers here.
